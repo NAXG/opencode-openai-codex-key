@@ -21,29 +21,270 @@
 
 ---
 
-## 🚀 快速开始
+## 📦 安装
 
-### 1. 运行认证
+### For Humans
+
+**选项 A：让 LLM 来做**
+
+将以下内容粘贴到任何 LLM 代理（Claude Code、OpenCode、Cursor 等）：
+
+```
+安装 opencode-openai-codex-key 插件并配置我的第三方 Codex API，按照此文档操作：https://raw.githubusercontent.com/NAXG/opencode-openai-codex-key/main/README.zh.md
+```
+
+**选项 B：手动设置**
+
+1. **添加插件到配置文件** (`~/.config/opencode/opencode.json`)：
+
+   ```json
+   {
+     "plugin": ["opencode-openai-codex-key"]
+   }
+   ```
+
+2. **运行认证：**
+
+   ```bash
+   opencode auth login
+   ```
+
+   选择：**OpenAI** → **"Third-party Codex API (API Key + URL)"**
+
+   按提示输入：
+   - **API Base URL**: `https://your-codex-api.com`
+   - **API Key**: `sk-...`
+
+3. **开始使用：**
+
+   ```bash
+   opencode run "write hello world to test.txt" --model=openai/gpt-5.1-codex-high
+   ```
+
+<details>
+<summary><b>LLM 代理安装指南</b></summary>
+
+### 分步说明
+
+1. 编辑 OpenCode 配置文件：
+   - Linux/Mac: `~/.config/opencode/opencode.json`
+   - Windows: `%APPDATA%\opencode\opencode.json`
+
+2. 将插件添加到 `plugin` 数组
+
+3. 设置 `provider` 为 `"openai"` 并配置 baseURL
+
+4. 根据您的 OpenCode 版本选择配置方式：
+   - **现代配置 (OpenCode 1.0.140+)**: 使用 `variants` 使配置更简洁
+   - **传统配置 (旧版本)**: 使用独立的模型定义
+
+### 现代配置（推荐）
+
+对于 OpenCode 1.0.140 及更高版本，使用 `variants` 方式：
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": ["opencode-openai-codex-key"],
+  "provider": {
+    "openai": {
+      "baseURL": "https://your-codex-api.com",
+      "options": {
+        "reasoningEffort": "medium",
+        "reasoningSummary": "auto",
+        "textVerbosity": "medium"
+      },
+      "models": {
+        "gpt-5.2-codex": {
+          "name": "GPT 5.2 Codex (Key)",
+          "limit": { "context": 272000, "output": 128000 },
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "variants": {
+            "low": {
+              "reasoningEffort": "low",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "medium": {
+              "reasoningEffort": "medium",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high",
+              "reasoningSummary": "detailed",
+              "textVerbosity": "medium"
+            },
+            "xhigh": {
+              "reasoningEffort": "xhigh",
+              "reasoningSummary": "detailed",
+              "textVerbosity": "medium"
+            }
+          }
+        },
+        "gpt-5.1-codex": {
+          "name": "GPT 5.1 Codex (Key)",
+          "limit": { "context": 272000, "output": 128000 },
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "variants": {
+            "low": {
+              "reasoningEffort": "low",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "medium": {
+              "reasoningEffort": "medium",
+              "reasoningSummary": "auto",
+              "textVerbosity": "medium"
+            },
+            "high": {
+              "reasoningEffort": "high",
+              "reasoningSummary": "detailed",
+              "textVerbosity": "medium"
+            }
+          }
+        }
+      }
+    }
+  },
+  "model": "openai/gpt-5.1-codex-high"
+}
+```
+
+**使用 variants 的方式：**
+```bash
+opencode run "your prompt" --model=openai/gpt-5.2-codex-high
+opencode run "your prompt" --model=openai/gpt-5.1-codex-medium
+```
+
+详见 `config/opencode-modern.json` 获取完整的现代配置。
+
+### 传统配置
+
+对于旧版本的 OpenCode，使用独立的模型定义：
+
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": ["opencode-openai-codex-key"],
+  "provider": {
+    "openai": {
+      "baseURL": "https://your-codex-api.com",
+      "options": {
+        "reasoningEffort": "medium",
+        "reasoningSummary": "auto",
+        "textVerbosity": "medium"
+      },
+      "models": {
+        "gpt-5.2-codex-low": {
+          "name": "GPT 5.2 Codex Low (Key)",
+          "limit": { "context": 272000, "output": 128000 },
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "options": {
+            "reasoningEffort": "low",
+            "reasoningSummary": "auto",
+            "textVerbosity": "medium"
+          }
+        },
+        "gpt-5.2-codex-medium": {
+          "name": "GPT 5.2 Codex Medium (Key)",
+          "limit": { "context": 272000, "output": 128000 },
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "options": {
+            "reasoningEffort": "medium",
+            "reasoningSummary": "auto",
+            "textVerbosity": "medium"
+          }
+        },
+        "gpt-5.2-codex-high": {
+          "name": "GPT 5.2 Codex High (Key)",
+          "limit": { "context": 272000, "output": 128000 },
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "options": {
+            "reasoningEffort": "high",
+            "reasoningSummary": "detailed",
+            "textVerbosity": "medium"
+          }
+        },
+        "gpt-5.1-codex-high": {
+          "name": "GPT 5.1 Codex High (Key)",
+          "limit": { "context": 272000, "output": 128000 },
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          },
+          "options": {
+            "reasoningEffort": "high",
+            "reasoningSummary": "detailed",
+            "textVerbosity": "medium"
+          }
+        }
+      }
+    }
+  },
+  "model": "openai/gpt-5.1-codex-high"
+}
+```
+
+**使用传统配置：**
+```bash
+opencode run "your prompt" --model=openai/gpt-5.2-codex-high
+opencode run "your prompt" --model=openai/gpt-5.1-codex-high
+```
+
+详见 `config/opencode-legacy.json` 获取完整的传统配置。
+
+### 运行认证
+
+保存配置后：
 
 ```bash
 opencode auth login
 ```
 
-### 2. 输入配置
+选择 **OpenAI** → **"Third-party Codex API (API Key + URL)"** 并输入您的凭据。
 
-选择：**OpenAI** → **"Third-party Codex API (API Key + URL)"**
-
-按提示输入：
-- **API Base URL**: `https://your-codex-api.com`
-- **API Key**: `sk-...`
-
-配置自动保存！
-
-### 3. 开始使用
+### 验证
 
 ```bash
-opencode run "write hello world to test.txt" --model=openai/gpt-5.1-codex-high
+opencode run "Hello" --model=openai/gpt-5.1-codex-high
 ```
+
+</details>
+
+---
+
+## 🚀 快速开始
+
+已经安装？以下是使用方法：
+
+```bash
+# 使用指定模型
+opencode run "your prompt" --model=openai/gpt-5.1-codex-high
+
+# 使用配置中的默认模型
+opencode run "your prompt"
+
+# 启用调试日志
+ENABLE_PLUGIN_REQUEST_LOGGING=1 opencode run "your prompt"
+```
+
+日志保存到：`~/.opencode/logs/codex-plugin/`
 
 ---
 
@@ -132,23 +373,6 @@ opencode auth login
 2. **认证方式**: Bearer Token (`Authorization: Bearer YOUR_API_KEY`)
 3. **请求格式**: Codex Backend API 格式
 4. **响应格式**: SSE (Server-Sent Events)
-
----
-
-## 🔧 使用方法
-
-```bash
-# 使用指定模型
-opencode run "your prompt" --model=openai/gpt-5.1-codex-high
-
-# 使用配置中的默认模型
-opencode run "your prompt"
-
-# 启用调试日志
-ENABLE_PLUGIN_REQUEST_LOGGING=1 opencode run "your prompt"
-```
-
-日志保存到：`~/.opencode/logs/codex-plugin/`
 
 ---
 
