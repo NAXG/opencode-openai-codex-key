@@ -81,8 +81,10 @@ Install the opencode-openai-codex-key plugin and configure it with my third-part
 
 4. Merge the configuration into the user's `opencode.json` file, making sure to:
    - Keep the `"plugin": ["opencode-openai-codex-key"]` declaration
-   - Set `baseURL` to the user's third-party Codex API endpoint
-   - Include all the models from the configuration file
+   - Include all the `provider.openai.models` from the configuration file
+   - Keep the `provider.openai.options` settings
+
+**Note**: The `baseURL` and API Key will be set later through the authentication process, which saves them to `~/.opencode/openai-codex-auth-config.json` automatically.
 
 ### Modern Configuration (Recommended)
 
@@ -94,8 +96,7 @@ For OpenCode version 1.0.140 and later:
 1. Read the complete configuration from the URL above
 2. Merge it with the user's existing `opencode.json`
 3. Ensure `"plugin": ["opencode-openai-codex-key"]` is included in the `plugin` array
-4. Set `provider.openai.baseURL` to the user's third-party Codex API endpoint
-5. Keep all the models and options from the configuration file
+4. Copy all the models and options from the configuration file
 
 This configuration uses `variants` for a cleaner, more maintainable setup. Key features:
 - Uses `variants` to define model variations (low/medium/high/xhigh)
@@ -118,8 +119,7 @@ For older OpenCode versions:
 1. Read the complete configuration from the URL above
 2. Merge it with the user's existing `opencode.json`
 3. Ensure `"plugin": ["opencode-openai-codex-key"]` is included in the `plugin` array
-4. Set `provider.openai.baseURL` to the user's third-party Codex API endpoint
-5. Keep all the models and options from the configuration file
+4. Copy all the models and options from the configuration file
 
 This configuration uses individual model definitions for each reasoning level. Key features:
 - Each reasoning level is a separate model (e.g., `gpt-5.2-codex-low`, `gpt-5.2-codex-high`)
@@ -134,13 +134,17 @@ opencode run "your prompt" --model=openai/gpt-5.1-codex-high
 
 ### Run Authentication
 
-After saving the config:
+After saving the config, run authentication to set up your API endpoint and key:
 
 ```bash
 opencode auth login
 ```
 
-Select **OpenAI** → **"Third-party Codex API (API Key + URL)"** and enter your credentials.
+Select **OpenAI** → **"Third-party Codex API (API Key + URL)"** and enter:
+- **API Base URL**: Your third-party Codex API endpoint (e.g., `https://your-codex-api.com`)
+- **API Key**: Your API key (e.g., `sk-...`)
+
+This will automatically save your credentials to `~/.opencode/openai-codex-auth-config.json`.
 
 ### Verification
 

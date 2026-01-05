@@ -81,8 +81,10 @@
 
 4. 将配置合并到用户的 `opencode.json` 文件中，确保：
    - 保留 `"plugin": ["opencode-openai-codex-key"]` 声明
-   - 设置 `baseURL` 为用户的第三方 Codex API 端点
-   - 包含配置文件中的所有模型
+   - 包含配置文件中的所有 `provider.openai.models`
+   - 保留 `provider.openai.options` 设置
+
+**注意**：`baseURL` 和 API Key 将在稍后的认证过程中设置，系统会自动保存到 `~/.opencode/openai-codex-auth-config.json`。
 
 ### 现代配置（推荐）
 
@@ -94,8 +96,7 @@
 1. 从上面的 URL 读取完整配置
 2. 将其与用户现有的 `opencode.json` 合并
 3. 确保 `plugin` 数组中包含 `"opencode-openai-codex-key"`
-4. 设置 `provider.openai.baseURL` 为用户的第三方 Codex API 端点
-5. 保留配置文件中的所有模型和选项
+4. 复制配置文件中的所有模型和选项
 
 此配置使用 `variants` 方式，提供更简洁、易维护的设置。主要特性：
 - 使用 `variants` 定义模型变体（low/medium/high/xhigh）
@@ -118,8 +119,7 @@ opencode run "your prompt" --model=openai/gpt-5.1-codex-medium
 1. 从上面的 URL 读取完整配置
 2. 将其与用户现有的 `opencode.json` 合并
 3. 确保 `plugin` 数组中包含 `"opencode-openai-codex-key"`
-4. 设置 `provider.openai.baseURL` 为用户的第三方 Codex API 端点
-5. 保留配置文件中的所有模型和选项
+4. 复制配置文件中的所有模型和选项
 
 此配置为每个推理级别使用独立的模型定义。主要特性：
 - 每个推理级别都是独立的模型（如 `gpt-5.2-codex-low`、`gpt-5.2-codex-high`）
@@ -134,13 +134,17 @@ opencode run "your prompt" --model=openai/gpt-5.1-codex-high
 
 ### 运行认证
 
-保存配置后：
+保存配置后，运行认证命令设置 API 端点和密钥：
 
 ```bash
 opencode auth login
 ```
 
-选择 **OpenAI** → **"Third-party Codex API (API Key + URL)"** 并输入您的凭据。
+选择 **OpenAI** → **"Third-party Codex API (API Key + URL)"** 并输入：
+- **API Base URL**: 您的第三方 Codex API 端点（例如 `https://your-codex-api.com`）
+- **API Key**: 您的 API 密钥（例如 `sk-...`）
+
+系统将自动保存您的凭据到 `~/.opencode/openai-codex-auth-config.json`。
 
 ### 验证
 
