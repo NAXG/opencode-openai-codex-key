@@ -70,19 +70,32 @@ Install the opencode-openai-codex-key plugin and configure it with my third-part
    - Linux/Mac: `~/.config/opencode/opencode.json`
    - Windows: `%APPDATA%\opencode\opencode.json`
 
-2. Add the plugin to the `plugin` array
+2. Add the plugin to the `plugin` array:
+   ```json
+   {
+     "plugin": ["opencode-openai-codex-key"]
+   }
+   ```
 
-3. Set `provider` to `"openai"` and configure your baseURL
+3. Choose configuration style based on your OpenCode version and read the configuration from the corresponding URL
 
-4. Choose configuration style based on your OpenCode version:
-   - **Modern (OpenCode 1.0.140+)**: Use `variants` for cleaner config
-   - **Legacy (older versions)**: Use individual model definitions
+4. Merge the configuration into the user's `opencode.json` file, making sure to:
+   - Keep the `"plugin": ["opencode-openai-codex-key"]` declaration
+   - Set `baseURL` to the user's third-party Codex API endpoint
+   - Include all the models from the configuration file
 
 ### Modern Configuration (Recommended)
 
-For OpenCode version 1.0.140 and later, read the modern configuration from:
+For OpenCode version 1.0.140 and later:
 
 **Configuration URL**: https://raw.githubusercontent.com/NAXG/opencode-openai-codex-key/refs/heads/main/config/opencode-modern.json
+
+**Instructions:**
+1. Read the complete configuration from the URL above
+2. Merge it with the user's existing `opencode.json`
+3. Ensure `"plugin": ["opencode-openai-codex-key"]` is included in the `plugin` array
+4. Set `provider.openai.baseURL` to the user's third-party Codex API endpoint
+5. Keep all the models and options from the configuration file
 
 This configuration uses `variants` for a cleaner, more maintainable setup. Key features:
 - Uses `variants` to define model variations (low/medium/high/xhigh)
@@ -95,13 +108,18 @@ opencode run "your prompt" --model=openai/gpt-5.2-codex-high
 opencode run "your prompt" --model=openai/gpt-5.1-codex-medium
 ```
 
-**Important**: Remember to set your `baseURL` to your third-party Codex API endpoint before using.
-
 ### Legacy Configuration
 
-For older OpenCode versions, read the legacy configuration from:
+For older OpenCode versions:
 
 **Configuration URL**: https://raw.githubusercontent.com/NAXG/opencode-openai-codex-key/refs/heads/main/config/opencode-legacy.json
+
+**Instructions:**
+1. Read the complete configuration from the URL above
+2. Merge it with the user's existing `opencode.json`
+3. Ensure `"plugin": ["opencode-openai-codex-key"]` is included in the `plugin` array
+4. Set `provider.openai.baseURL` to the user's third-party Codex API endpoint
+5. Keep all the models and options from the configuration file
 
 This configuration uses individual model definitions for each reasoning level. Key features:
 - Each reasoning level is a separate model (e.g., `gpt-5.2-codex-low`, `gpt-5.2-codex-high`)
@@ -113,8 +131,6 @@ This configuration uses individual model definitions for each reasoning level. K
 opencode run "your prompt" --model=openai/gpt-5.2-codex-high
 opencode run "your prompt" --model=openai/gpt-5.1-codex-high
 ```
-
-**Important**: Remember to set your `baseURL` to your third-party Codex API endpoint before using.
 
 ### Run Authentication
 

@@ -70,19 +70,32 @@
    - Linux/Mac: `~/.config/opencode/opencode.json`
    - Windows: `%APPDATA%\opencode\opencode.json`
 
-2. 将插件添加到 `plugin` 数组
+2. 将插件添加到 `plugin` 数组：
+   ```json
+   {
+     "plugin": ["opencode-openai-codex-key"]
+   }
+   ```
 
-3. 设置 `provider` 为 `"openai"` 并配置 baseURL
+3. 根据 OpenCode 版本选择配置方式，从相应的 URL 读取配置
 
-4. 根据您的 OpenCode 版本选择配置方式：
-   - **现代配置 (OpenCode 1.0.140+)**: 使用 `variants` 使配置更简洁
-   - **传统配置 (旧版本)**: 使用独立的模型定义
+4. 将配置合并到用户的 `opencode.json` 文件中，确保：
+   - 保留 `"plugin": ["opencode-openai-codex-key"]` 声明
+   - 设置 `baseURL` 为用户的第三方 Codex API 端点
+   - 包含配置文件中的所有模型
 
 ### 现代配置（推荐）
 
-对于 OpenCode 1.0.140 及更高版本，从以下地址读取现代配置：
+对于 OpenCode 1.0.140 及更高版本：
 
 **配置文件地址**: https://raw.githubusercontent.com/NAXG/opencode-openai-codex-key/refs/heads/main/config/opencode-modern.json
+
+**操作说明：**
+1. 从上面的 URL 读取完整配置
+2. 将其与用户现有的 `opencode.json` 合并
+3. 确保 `plugin` 数组中包含 `"opencode-openai-codex-key"`
+4. 设置 `provider.openai.baseURL` 为用户的第三方 Codex API 端点
+5. 保留配置文件中的所有模型和选项
 
 此配置使用 `variants` 方式，提供更简洁、易维护的设置。主要特性：
 - 使用 `variants` 定义模型变体（low/medium/high/xhigh）
@@ -95,13 +108,18 @@ opencode run "your prompt" --model=openai/gpt-5.2-codex-high
 opencode run "your prompt" --model=openai/gpt-5.1-codex-medium
 ```
 
-**重要提示**：使用前记得设置 `baseURL` 为您的第三方 Codex API 端点。
-
 ### 传统配置
 
-对于旧版本的 OpenCode，从以下地址读取传统配置：
+对于旧版本的 OpenCode：
 
 **配置文件地址**: https://raw.githubusercontent.com/NAXG/opencode-openai-codex-key/refs/heads/main/config/opencode-legacy.json
+
+**操作说明：**
+1. 从上面的 URL 读取完整配置
+2. 将其与用户现有的 `opencode.json` 合并
+3. 确保 `plugin` 数组中包含 `"opencode-openai-codex-key"`
+4. 设置 `provider.openai.baseURL` 为用户的第三方 Codex API 端点
+5. 保留配置文件中的所有模型和选项
 
 此配置为每个推理级别使用独立的模型定义。主要特性：
 - 每个推理级别都是独立的模型（如 `gpt-5.2-codex-low`、`gpt-5.2-codex-high`）
@@ -113,8 +131,6 @@ opencode run "your prompt" --model=openai/gpt-5.1-codex-medium
 opencode run "your prompt" --model=openai/gpt-5.2-codex-high
 opencode run "your prompt" --model=openai/gpt-5.1-codex-high
 ```
-
-**重要提示**：使用前记得设置 `baseURL` 为您的第三方 Codex API 端点。
 
 ### 运行认证
 
