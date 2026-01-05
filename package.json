@@ -6,10 +6,10 @@
   "types": "./dist/index.d.ts",
   "type": "module",
   "license": "MIT",
-  "author": "Numman Ali",
+  "author": "naxg",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/numman-ali/opencode-openai-codex-key.git"
+    "url": "git+https://github.com/NAXG/opencode-openai-codex-key.git"
   },
   "keywords": [
     "opencode",
@@ -21,9 +21,9 @@
     "plugin",
     "custom-endpoint"
   ],
-  "homepage": "https://github.com/numman-ali/opencode-openai-codex-key#readme",
+  "homepage": "https://github.com/NAXG/opencode-openai-codex-key#readme",
   "bugs": {
-    "url": "https://github.com/numman-ali/opencode-openai-codex-key/issues"
+    "url": "https://github.com/NAXG/opencode-openai-codex-key/issues"
   },
   "scripts": {
     "build": "tsc",
