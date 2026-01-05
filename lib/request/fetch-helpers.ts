@@ -3,9 +3,7 @@
  * These functions break down the complex fetch logic into manageable, testable units
  */
 
-import type { Auth } from "@opencode-ai/sdk";
-import type { OpencodeClient } from "@opencode-ai/sdk";
-import { refreshAccessToken } from "../auth/auth.js";
+
 import { logRequest } from "../logger.js";
 import { getCodexInstructions, getModelFamily } from "../prompts/codex.js";
 import { transformRequestBody, normalizeModel } from "./request-transformer.js";
@@ -14,59 +12,9 @@ import type { UserConfig, RequestBody } from "../types.js";
 import {
 	PLUGIN_NAME,
 	HTTP_STATUS,
-	OPENAI_HEADERS,
-	OPENAI_HEADER_VALUES,
 	URL_PATHS,
-	ERROR_MESSAGES,
 	LOG_STAGES,
 } from "../constants.js";
-
-/**
- * Determines if the current auth token needs to be refreshed
- * @param auth - Current authentication state
- * @returns True if token is expired or invalid
- */
-export function shouldRefreshToken(auth: Auth): boolean {
-	return auth.type !== "oauth" || !auth.access || auth.expires < Date.now();
-}
-
-/**
- * Refreshes the OAuth token and updates stored credentials
- * @param currentAuth - Current auth state
- * @param client - Opencode client for updating stored credentials
- * @returns Updated auth (throws on failure)
- */
-export async function refreshAndUpdateToken(
-	currentAuth: Auth,
-	client: OpencodeClient,
-): Promise<Auth> {
-	const refreshToken = currentAuth.type === "oauth" ? currentAuth.refresh : "";
-	const refreshResult = await refreshAccessToken(refreshToken);
-
-	if (refreshResult.type === "failed") {
-		throw new Error(ERROR_MESSAGES.TOKEN_REFRESH_FAILED);
-	}
-
-	// Update stored credentials
-	await client.auth.set({
-		path: { id: "openai" },
-		body: {
-			type: "oauth",
-			access: refreshResult.access,
-			refresh: refreshResult.refresh,
-			expires: refreshResult.expires,
-		},
-	});
-
-	// Update current auth reference if it's OAuth type
-	if (currentAuth.type === "oauth") {
-		currentAuth.access = refreshResult.access;
-		currentAuth.refresh = refreshResult.refresh;
-		currentAuth.expires = refreshResult.expires;
-	}
-
-	return currentAuth;
-}
 
 /**
  * Extracts URL string from various request input types
@@ -84,7 +32,30 @@ export function extractRequestUrl(input: Request | string | URL): string {
  * @param url - Original URL
  * @returns Rewritten URL for Codex backend
  */
-export function rewriteUrlForCodex(url: string): string {
+/**
+ * Rewrites URL from OpenAI SDK format to Codex backend format
+ * For custom base URLs, uses the URL as-is without modification
+ *
+ * @param url - Original request URL
+ * @param customBaseURL - Optional custom base URL (for third-party Codex API)
+ * @returns URL for Codex backend
+ *
+ * @example
+ * // Default ChatGPT backend
+ * rewriteUrlForCodex("https://api.openai.com/v1/responses")
+ * // => "https://api.openai.com/v1/codex/responses"
+ *
+ * // Custom base URL - uses original URL as-is
+ * rewriteUrlForCodex("https://api.openai.com/v1/responses", "https://my-api.com")
+ * // => "https://api.openai.com/v1/responses" (no modification)
+ */
+export function rewriteUrlForCodex(url: string, customBaseURL?: string): string {
+	if (customBaseURL) {
+		// For custom base URL, use it as-is without any path modification
+		// User's URL should be the complete endpoint (e.g., https://your-api.com/v1/chat/completions)
+		return url;
+	}
+	// For default ChatGPT backend, rewrite /responses to /codex/responses
 	return url.replace(URL_PATHS.RESPONSES, URL_PATHS.CODEX_RESPONSES);
 }
 
@@ -158,7 +129,7 @@ export async function transformRequestForCodex(
 			updatedInit: { ...init, body: JSON.stringify(transformedBody) },
 		};
 	} catch (e) {
-		console.error(`[${PLUGIN_NAME}] ${ERROR_MESSAGES.REQUEST_PARSE_ERROR}:`, e);
+		console.error(`[${PLUGIN_NAME}] Error parsing request:`, e);
 		return undefined;
 	}
 }
@@ -170,30 +141,6 @@ export async function transformRequestForCodex(
  * @param accessToken - OAuth access token
  * @returns Headers object with all required Codex headers
  */
-export function createCodexHeaders(
-    init: RequestInit | undefined,
-    accountId: string,
-    accessToken: string,
-    opts?: { model?: string; promptCacheKey?: string },
-): Headers {
-	const headers = new Headers(init?.headers ?? {});
-	headers.delete("x-api-key"); // Remove any existing API key
-	headers.set("Authorization", `Bearer ${accessToken}`);
-	headers.set(OPENAI_HEADERS.ACCOUNT_ID, accountId);
-	headers.set(OPENAI_HEADERS.BETA, OPENAI_HEADER_VALUES.BETA_RESPONSES);
-	headers.set(OPENAI_HEADERS.ORIGINATOR, OPENAI_HEADER_VALUES.ORIGINATOR_CODEX);
-
-    const cacheKey = opts?.promptCacheKey;
-    if (cacheKey) {
-        headers.set(OPENAI_HEADERS.CONVERSATION_ID, cacheKey);
-        headers.set(OPENAI_HEADERS.SESSION_ID, cacheKey);
-    } else {
-        headers.delete(OPENAI_HEADERS.CONVERSATION_ID);
-        headers.delete(OPENAI_HEADERS.SESSION_ID);
-    }
-    headers.set("accept", "text/event-stream");
-    return headers;
-}
 
 /**
  * Handles error responses from the Codex API

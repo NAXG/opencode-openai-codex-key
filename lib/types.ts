@@ -9,6 +9,11 @@ export interface PluginConfig {
 	 * @default true
 	 */
 	codexMode?: boolean;
+	/**
+	 * Custom base URL for third-party Codex API endpoints
+	 * @example "https://your-codex-api.com"
+	 */
+	baseURL?: string;
 }
 
 /**

@@ -30,6 +30,8 @@ export const OPENAI_HEADERS = {
 	ORIGINATOR: "originator",
 	SESSION_ID: "session_id",
 	CONVERSATION_ID: "conversation_id",
+	AUTHORIZATION: "Authorization",
+	CONTENT_TYPE: "Content-Type",
 } as const;
 
 /** OpenAI-specific header values */

@@ -1,7 +1,7 @@
 {
-  "name": "opencode-openai-codex-auth",
+  "name": "opencode-openai-codex-key",
   "version": "4.3.0",
-  "description": "OpenAI ChatGPT (Codex backend) OAuth auth plugin for opencode - use your ChatGPT Plus/Pro subscription instead of API credits",
+  "description": "Third-party Codex API plugin for OpenCode - API Key authentication with custom base URL support",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "type": "module",
@@ -9,26 +9,24 @@
   "author": "Numman Ali",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/numman-ali/opencode-openai-codex-auth.git"
+    "url": "git+https://github.com/numman-ali/opencode-openai-codex-key.git"
   },
   "keywords": [
     "opencode",
     "openai",
     "codex",
-    "chatgpt",
-    "oauth",
+    "third-party",
+    "api-key",
     "gpt-5",
     "plugin",
-    "auth",
-    "chatgpt-plus",
-    "chatgpt-pro"
+    "custom-endpoint"
   ],
-  "homepage": "https://github.com/numman-ali/opencode-openai-codex-auth#readme",
+  "homepage": "https://github.com/numman-ali/opencode-openai-codex-key#readme",
   "bugs": {
-    "url": "https://github.com/numman-ali/opencode-openai-codex-auth/issues"
+    "url": "https://github.com/numman-ali/opencode-openai-codex-key/issues"
   },
   "scripts": {
-    "build": "tsc && cp lib/oauth-success.html dist/lib/",
+    "build": "tsc",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -36,7 +34,7 @@
     "test:coverage": "vitest run --coverage"
   },
   "bin": {
-    "opencode-openai-codex-auth": "./scripts/install-opencode-codex-auth.js"
+    "opencode-openai-codex-key": "./scripts/install-opencode-codex-auth.js"
   },
   "files": [
     "dist/",
@@ -60,12 +58,7 @@
     "typescript": "^5.9.3",
     "vitest": "^3.2.4"
   },
-  "dependencies": {
-    "@openauthjs/openauth": "^0.4.3",
-    "hono": "^4.10.4"
-  },
   "overrides": {
-    "hono": "^4.10.4",
     "vite": "^7.1.12"
   }
 }

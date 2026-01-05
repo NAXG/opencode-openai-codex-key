@@ -1,5 +1,5 @@
-import { readFileSync, existsSync } from "node:fs";
-import { join } from "node:path";
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
+import { join, dirname } from "node:path";
 import { homedir } from "node:os";
 import type { PluginConfig } from "./types.js";
 
@@ -57,4 +57,25 @@ export function getCodexMode(pluginConfig: PluginConfig): boolean {
 
 	// Use config setting (defaults to true)
 	return pluginConfig.codexMode ?? true;
+}
+
+/**
+ * Save plugin configuration to ~/.opencode/openai-codex-auth-config.json
+ * Creates the directory if it doesn't exist
+ *
+ * @param config - Plugin configuration to save
+ */
+export function savePluginConfig(config: PluginConfig): void {
+	try {
+		const dir = dirname(CONFIG_PATH);
+		if (!existsSync(dir)) {
+			mkdirSync(dir, { recursive: true });
+		}
+		writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2), "utf-8");
+	} catch (error) {
+		console.error(
+			`[openai-codex-plugin] Failed to save config to ${CONFIG_PATH}:`,
+			(error as Error).message
+		);
+	}
 }
