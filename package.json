@@ -1,7 +1,7 @@
 {
   "name": "opencode-openai-codex-key",
   "version": "4.3.0",
-  "description": "Third-party Codex API plugin for OpenCode - API Key authentication with custom base URL support",
+  "description": "API Key authentication plugin for third-party Codex API endpoints - supports custom base URL and all GPT 5.1/5.2 Codex variants",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "type": "module",
