@@ -39,7 +39,7 @@ Install the opencode-openai-codex-key plugin and configure it with my third-part
 
    ```json
    {
-     "plugin": ["opencode-openai-codex-key"]
+     "plugin": ["opencode-openai-codex-key@4.3.0"]
    }
    ```
 
@@ -73,14 +73,14 @@ Install the opencode-openai-codex-key plugin and configure it with my third-part
 2. Add the plugin to the `plugin` array:
    ```json
    {
-     "plugin": ["opencode-openai-codex-key"]
+     "plugin": ["opencode-openai-codex-key@4.3.0"]
    }
    ```
 
 3. Choose configuration style based on your OpenCode version and read the configuration from the corresponding URL
 
 4. Merge the configuration into the user's `opencode.json` file, making sure to:
-   - Keep the `"plugin": ["opencode-openai-codex-key"]` declaration
+   - Keep the `"plugin": ["opencode-openai-codex-key@4.3.0"]` declaration
    - Include all the `provider.openai.models` from the configuration file
    - Keep the `provider.openai.options` settings
 
@@ -95,7 +95,7 @@ For OpenCode version 1.0.140 and later:
 **Instructions:**
 1. Read the complete configuration from the URL above
 2. Merge it with the user's existing `opencode.json`
-3. Ensure `"plugin": ["opencode-openai-codex-key"]` is included in the `plugin` array
+3. Ensure `"plugin": ["opencode-openai-codex-key@4.3.0"]` is included in the `plugin` array
 4. Copy all the models and options from the configuration file
 
 This configuration uses `variants` for a cleaner, more maintainable setup. Key features:
@@ -118,7 +118,7 @@ For older OpenCode versions:
 **Instructions:**
 1. Read the complete configuration from the URL above
 2. Merge it with the user's existing `opencode.json`
-3. Ensure `"plugin": ["opencode-openai-codex-key"]` is included in the `plugin` array
+3. Ensure `"plugin": ["opencode-openai-codex-key@4.3.0"]` is included in the `plugin` array
 4. Copy all the models and options from the configuration file
 
 This configuration uses individual model definitions for each reasoning level. Key features:
@@ -204,7 +204,7 @@ Create or modify `~/.config/opencode/opencode.json`:
 ```json
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": ["opencode-openai-codex-key"],
+  "plugin": ["opencode-openai-codex-key@4.3.0"],
   "provider": {
     "openai": {
       "baseURL": "https://your-codex-api.com",

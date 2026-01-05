@@ -39,7 +39,7 @@
 
    ```json
    {
-     "plugin": ["opencode-openai-codex-key"]
+     "plugin": ["opencode-openai-codex-key@4.3.0"]
    }
    ```
 
@@ -73,14 +73,14 @@
 2. 将插件添加到 `plugin` 数组：
    ```json
    {
-     "plugin": ["opencode-openai-codex-key"]
+     "plugin": ["opencode-openai-codex-key@4.3.0"]
    }
    ```
 
 3. 根据 OpenCode 版本选择配置方式，从相应的 URL 读取配置
 
 4. 将配置合并到用户的 `opencode.json` 文件中，确保：
-   - 保留 `"plugin": ["opencode-openai-codex-key"]` 声明
+   - 保留 `"plugin": ["opencode-openai-codex-key@4.3.0"]` 声明
    - 包含配置文件中的所有 `provider.openai.models`
    - 保留 `provider.openai.options` 设置
 
@@ -95,7 +95,7 @@
 **操作说明：**
 1. 从上面的 URL 读取完整配置
 2. 将其与用户现有的 `opencode.json` 合并
-3. 确保 `plugin` 数组中包含 `"opencode-openai-codex-key"`
+3. 确保 `plugin` 数组中包含 `"opencode-openai-codex-key@4.3.0"`
 4. 复制配置文件中的所有模型和选项
 
 此配置使用 `variants` 方式，提供更简洁、易维护的设置。主要特性：
@@ -118,7 +118,7 @@ opencode run "your prompt" --model=openai/gpt-5.1-codex-medium
 **操作说明：**
 1. 从上面的 URL 读取完整配置
 2. 将其与用户现有的 `opencode.json` 合并
-3. 确保 `plugin` 数组中包含 `"opencode-openai-codex-key"`
+3. 确保 `plugin` 数组中包含 `"opencode-openai-codex-key@4.3.0"`
 4. 复制配置文件中的所有模型和选项
 
 此配置为每个推理级别使用独立的模型定义。主要特性：
@@ -204,7 +204,7 @@ opencode auth login
 ```json
 {
   "$schema": "https://opencode.ai/config.json",
-  "plugin": ["opencode-openai-codex-key"],
+  "plugin": ["opencode-openai-codex-key@4.3.0"],
   "provider": {
     "openai": {
       "baseURL": "https://your-codex-api.com",
