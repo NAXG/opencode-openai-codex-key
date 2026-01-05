@@ -80,166 +80,33 @@
 
 ### 现代配置（推荐）
 
-对于 OpenCode 1.0.140 及更高版本，使用 `variants` 方式：
+对于 OpenCode 1.0.140 及更高版本，从以下地址读取现代配置：
 
-```json
-{
-  "$schema": "https://opencode.ai/config.json",
-  "plugin": ["opencode-openai-codex-key"],
-  "provider": {
-    "openai": {
-      "baseURL": "https://your-codex-api.com",
-      "options": {
-        "reasoningEffort": "medium",
-        "reasoningSummary": "auto",
-        "textVerbosity": "medium"
-      },
-      "models": {
-        "gpt-5.2-codex": {
-          "name": "GPT 5.2 Codex (Key)",
-          "limit": { "context": 272000, "output": 128000 },
-          "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
-          },
-          "variants": {
-            "low": {
-              "reasoningEffort": "low",
-              "reasoningSummary": "auto",
-              "textVerbosity": "medium"
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-              "reasoningSummary": "auto",
-              "textVerbosity": "medium"
-            },
-            "high": {
-              "reasoningEffort": "high",
-              "reasoningSummary": "detailed",
-              "textVerbosity": "medium"
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-              "reasoningSummary": "detailed",
-              "textVerbosity": "medium"
-            }
-          }
-        },
-        "gpt-5.1-codex": {
-          "name": "GPT 5.1 Codex (Key)",
-          "limit": { "context": 272000, "output": 128000 },
-          "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
-          },
-          "variants": {
-            "low": {
-              "reasoningEffort": "low",
-              "reasoningSummary": "auto",
-              "textVerbosity": "medium"
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-              "reasoningSummary": "auto",
-              "textVerbosity": "medium"
-            },
-            "high": {
-              "reasoningEffort": "high",
-              "reasoningSummary": "detailed",
-              "textVerbosity": "medium"
-            }
-          }
-        }
-      }
-    }
-  },
-  "model": "openai/gpt-5.1-codex-high"
-}
-```
+**配置文件地址**: https://raw.githubusercontent.com/NAXG/opencode-openai-codex-key/refs/heads/main/config/opencode-modern.json
 
-**使用 variants 的方式：**
+此配置使用 `variants` 方式，提供更简洁、易维护的设置。主要特性：
+- 使用 `variants` 定义模型变体（low/medium/high/xhigh）
+- 支持所有 GPT 5.1/5.2 Codex 模型
+- 包含正确的推理强度和摘要设置
+
+**使用现代配置：**
 ```bash
 opencode run "your prompt" --model=openai/gpt-5.2-codex-high
 opencode run "your prompt" --model=openai/gpt-5.1-codex-medium
 ```
 
-详见 `config/opencode-modern.json` 获取完整的现代配置。
+**重要提示**：使用前记得设置 `baseURL` 为您的第三方 Codex API 端点。
 
 ### 传统配置
 
-对于旧版本的 OpenCode，使用独立的模型定义：
+对于旧版本的 OpenCode，从以下地址读取传统配置：
 
-```json
-{
-  "$schema": "https://opencode.ai/config.json",
-  "plugin": ["opencode-openai-codex-key"],
-  "provider": {
-    "openai": {
-      "baseURL": "https://your-codex-api.com",
-      "options": {
-        "reasoningEffort": "medium",
-        "reasoningSummary": "auto",
-        "textVerbosity": "medium"
-      },
-      "models": {
-        "gpt-5.2-codex-low": {
-          "name": "GPT 5.2 Codex Low (Key)",
-          "limit": { "context": 272000, "output": 128000 },
-          "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
-          },
-          "options": {
-            "reasoningEffort": "low",
-            "reasoningSummary": "auto",
-            "textVerbosity": "medium"
-          }
-        },
-        "gpt-5.2-codex-medium": {
-          "name": "GPT 5.2 Codex Medium (Key)",
-          "limit": { "context": 272000, "output": 128000 },
-          "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
-          },
-          "options": {
-            "reasoningEffort": "medium",
-            "reasoningSummary": "auto",
-            "textVerbosity": "medium"
-          }
-        },
-        "gpt-5.2-codex-high": {
-          "name": "GPT 5.2 Codex High (Key)",
-          "limit": { "context": 272000, "output": 128000 },
-          "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
-          },
-          "options": {
-            "reasoningEffort": "high",
-            "reasoningSummary": "detailed",
-            "textVerbosity": "medium"
-          }
-        },
-        "gpt-5.1-codex-high": {
-          "name": "GPT 5.1 Codex High (Key)",
-          "limit": { "context": 272000, "output": 128000 },
-          "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
-          },
-          "options": {
-            "reasoningEffort": "high",
-            "reasoningSummary": "detailed",
-            "textVerbosity": "medium"
-          }
-        }
-      }
-    }
-  },
-  "model": "openai/gpt-5.1-codex-high"
-}
-```
+**配置文件地址**: https://raw.githubusercontent.com/NAXG/opencode-openai-codex-key/refs/heads/main/config/opencode-legacy.json
+
+此配置为每个推理级别使用独立的模型定义。主要特性：
+- 每个推理级别都是独立的模型（如 `gpt-5.2-codex-low`、`gpt-5.2-codex-high`）
+- 兼容旧版本的 OpenCode
+- 明确定义所有模型变体
 
 **使用传统配置：**
 ```bash
@@ -247,7 +114,7 @@ opencode run "your prompt" --model=openai/gpt-5.2-codex-high
 opencode run "your prompt" --model=openai/gpt-5.1-codex-high
 ```
 
-详见 `config/opencode-legacy.json` 获取完整的传统配置。
+**重要提示**：使用前记得设置 `baseURL` 为您的第三方 Codex API 端点。
 
 ### 运行认证
 

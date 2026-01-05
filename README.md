@@ -80,166 +80,33 @@ Install the opencode-openai-codex-key plugin and configure it with my third-part
 
 ### Modern Configuration (Recommended)
 
-For OpenCode version 1.0.140 and later, use the `variants` approach:
+For OpenCode version 1.0.140 and later, read the modern configuration from:
 
-```json
-{
-  "$schema": "https://opencode.ai/config.json",
-  "plugin": ["opencode-openai-codex-key"],
-  "provider": {
-    "openai": {
-      "baseURL": "https://your-codex-api.com",
-      "options": {
-        "reasoningEffort": "medium",
-        "reasoningSummary": "auto",
-        "textVerbosity": "medium"
-      },
-      "models": {
-        "gpt-5.2-codex": {
-          "name": "GPT 5.2 Codex (Key)",
-          "limit": { "context": 272000, "output": 128000 },
-          "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
-          },
-          "variants": {
-            "low": {
-              "reasoningEffort": "low",
-              "reasoningSummary": "auto",
-              "textVerbosity": "medium"
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-              "reasoningSummary": "auto",
-              "textVerbosity": "medium"
-            },
-            "high": {
-              "reasoningEffort": "high",
-              "reasoningSummary": "detailed",
-              "textVerbosity": "medium"
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-              "reasoningSummary": "detailed",
-              "textVerbosity": "medium"
-            }
-          }
-        },
-        "gpt-5.1-codex": {
-          "name": "GPT 5.1 Codex (Key)",
-          "limit": { "context": 272000, "output": 128000 },
-          "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
-          },
-          "variants": {
-            "low": {
-              "reasoningEffort": "low",
-              "reasoningSummary": "auto",
-              "textVerbosity": "medium"
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-              "reasoningSummary": "auto",
-              "textVerbosity": "medium"
-            },
-            "high": {
-              "reasoningEffort": "high",
-              "reasoningSummary": "detailed",
-              "textVerbosity": "medium"
-            }
-          }
-        }
-      }
-    }
-  },
-  "model": "openai/gpt-5.1-codex-high"
-}
-```
+**Configuration URL**: https://raw.githubusercontent.com/NAXG/opencode-openai-codex-key/refs/heads/main/config/opencode-modern.json
 
-**Usage with variants:**
+This configuration uses `variants` for a cleaner, more maintainable setup. Key features:
+- Uses `variants` to define model variations (low/medium/high/xhigh)
+- Supports all GPT 5.1/5.2 Codex models
+- Includes proper reasoning effort and summary settings
+
+**Usage with modern config:**
 ```bash
 opencode run "your prompt" --model=openai/gpt-5.2-codex-high
 opencode run "your prompt" --model=openai/gpt-5.1-codex-medium
 ```
 
-See `config/opencode-modern.json` for the complete modern configuration.
+**Important**: Remember to set your `baseURL` to your third-party Codex API endpoint before using.
 
 ### Legacy Configuration
 
-For older OpenCode versions, use individual model definitions:
+For older OpenCode versions, read the legacy configuration from:
 
-```json
-{
-  "$schema": "https://opencode.ai/config.json",
-  "plugin": ["opencode-openai-codex-key"],
-  "provider": {
-    "openai": {
-      "baseURL": "https://your-codex-api.com",
-      "options": {
-        "reasoningEffort": "medium",
-        "reasoningSummary": "auto",
-        "textVerbosity": "medium"
-      },
-      "models": {
-        "gpt-5.2-codex-low": {
-          "name": "GPT 5.2 Codex Low (Key)",
-          "limit": { "context": 272000, "output": 128000 },
-          "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
-          },
-          "options": {
-            "reasoningEffort": "low",
-            "reasoningSummary": "auto",
-            "textVerbosity": "medium"
-          }
-        },
-        "gpt-5.2-codex-medium": {
-          "name": "GPT 5.2 Codex Medium (Key)",
-          "limit": { "context": 272000, "output": 128000 },
-          "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
-          },
-          "options": {
-            "reasoningEffort": "medium",
-            "reasoningSummary": "auto",
-            "textVerbosity": "medium"
-          }
-        },
-        "gpt-5.2-codex-high": {
-          "name": "GPT 5.2 Codex High (Key)",
-          "limit": { "context": 272000, "output": 128000 },
-          "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
-          },
-          "options": {
-            "reasoningEffort": "high",
-            "reasoningSummary": "detailed",
-            "textVerbosity": "medium"
-          }
-        },
-        "gpt-5.1-codex-high": {
-          "name": "GPT 5.1 Codex High (Key)",
-          "limit": { "context": 272000, "output": 128000 },
-          "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
-          },
-          "options": {
-            "reasoningEffort": "high",
-            "reasoningSummary": "detailed",
-            "textVerbosity": "medium"
-          }
-        }
-      }
-    }
-  },
-  "model": "openai/gpt-5.1-codex-high"
-}
-```
+**Configuration URL**: https://raw.githubusercontent.com/NAXG/opencode-openai-codex-key/refs/heads/main/config/opencode-legacy.json
+
+This configuration uses individual model definitions for each reasoning level. Key features:
+- Each reasoning level is a separate model (e.g., `gpt-5.2-codex-low`, `gpt-5.2-codex-high`)
+- Compatible with older OpenCode versions
+- Includes all model variants explicitly defined
 
 **Usage with legacy config:**
 ```bash
@@ -247,7 +114,7 @@ opencode run "your prompt" --model=openai/gpt-5.2-codex-high
 opencode run "your prompt" --model=openai/gpt-5.1-codex-high
 ```
 
-See `config/opencode-legacy.json` for the complete legacy configuration.
+**Important**: Remember to set your `baseURL` to your third-party Codex API endpoint before using.
 
 ### Run Authentication
 
