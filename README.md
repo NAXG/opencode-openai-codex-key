@@ -1,43 +1,45 @@
 # Third-party Codex API Plugin for OpenCode
 
-**使用第三方 Codex API 端点 + API Key 认证**
+**Use third-party Codex API endpoints with API Key authentication**
 
 [![npm version](https://img.shields.io/npm/v/opencode-openai-codex-key.svg)](https://www.npmjs.com/package/opencode-openai-codex-key)
 
----
-
-## ✨ 功能特性
-
-- ✅ **第三方 Codex API 支持** - 连接到任何兼容的 Codex API 端点
-- ✅ **简单的 API Key 认证** - 无需 OAuth 流程
-- ✅ **自定义 baseURL** - 配置您自己的 API 端点
-- ✅ **完全兼容** - 使用 Codex Backend API 格式
-- ✅ **所有模型支持** - GPT 5.1/5.2 Codex 所有变体
-- ✅ **Prompt 缓存** - 跨请求复用响应
-- ✅ **完整工具支持** - write, edit, bash, grep, glob 等
-- ✅ **CODEX_MODE** - Codex-OpenCode 桥接提示（默认启用）
+English | [简体中文](./README.zh.md)
 
 ---
 
-## 🚀 快速开始
+## ✨ Features
 
-### 1. 运行认证
+- ✅ **Third-party Codex API Support** - Connect to any compatible Codex API endpoint
+- ✅ **Simple API Key Authentication** - No OAuth flow required
+- ✅ **Custom baseURL** - Configure your own API endpoint
+- ✅ **Full Compatibility** - Uses Codex Backend API format
+- ✅ **All Model Support** - GPT 5.1/5.2 Codex all variants
+- ✅ **Prompt Caching** - Reuse responses across requests
+- ✅ **Complete Tool Support** - write, edit, bash, grep, glob, etc.
+- ✅ **CODEX_MODE** - Codex-OpenCode bridge prompts (enabled by default)
+
+---
+
+## 🚀 Quick Start
+
+### 1. Run Authentication
 
 ```bash
 opencode auth login
 ```
 
-### 2. 输入配置
+### 2. Enter Configuration
 
-选择：**OpenAI** → **"Third-party Codex API (API Key + URL)"**
+Select: **OpenAI** → **"Third-party Codex API (API Key + URL)"**
 
-按提示输入：
+Enter when prompted:
 - **API Base URL**: `https://your-codex-api.com`
 - **API Key**: `sk-...`
 
-配置自动保存！
+Configuration is automatically saved!
 
-### 3. 开始使用
+### 3. Start Using
 
 ```bash
 opencode run "write hello world to test.txt" --model=openai/gpt-5.1-codex-high
@@ -45,7 +47,7 @@ opencode run "write hello world to test.txt" --model=openai/gpt-5.1-codex-high
 
 ---
 
-## 📦 支持的模型
+## 📦 Supported Models
 
 - **gpt-5.2** (none/low/medium/high/xhigh)
 - **gpt-5.2-codex** (low/medium/high/xhigh)
@@ -54,22 +56,22 @@ opencode run "write hello world to test.txt" --model=openai/gpt-5.1-codex-high
 - **gpt-5.1-codex-mini** (medium/high)
 - **gpt-5.1** (none/low/medium/high)
 
-详见 `config/opencode-modern.json` 获取完整配置。
+See `config/opencode-modern.json` for complete configuration.
 
 ---
 
-## 🧩 配置
+## 🧩 Configuration
 
-### 方法一：交互式（推荐）
+### Method 1: Interactive (Recommended)
 
 ```bash
 opencode auth login
-# 按提示输入 baseURL 和 API Key
+# Enter baseURL and API Key when prompted
 ```
 
-### 方法二：手动配置
+### Method 2: Manual Configuration
 
-创建或修改 `~/.config/opencode/opencode.json`：
+Create or modify `~/.config/opencode/opencode.json`:
 
 ```json
 {
@@ -99,111 +101,111 @@ opencode auth login
 }
 ```
 
-然后运行：
+Then run:
 
 ```bash
 opencode auth login
-# 输入 API Key
+# Enter API Key
 ```
 
 ---
 
-## 📝 配置说明
+## 📝 Configuration Details
 
-### baseURL（必需）
+### baseURL (Required)
 
-指定您的第三方 Codex API 端点。可以通过以下方式配置：
+Specify your third-party Codex API endpoint. Can be configured via:
 
-1. **交互式提示**（推荐）：认证时输入
-2. **插件配置文件**：`~/.opencode/openai-codex-auth-config.json`
-3. **Provider 配置**：opencode.json 中的 `provider.openai.baseURL`
+1. **Interactive Prompt** (Recommended): Enter during authentication
+2. **Plugin Config File**: `~/.opencode/openai-codex-auth-config.json`
+3. **Provider Config**: `provider.openai.baseURL` in opencode.json
 
-**优先级**: 插件配置 > Provider 配置 > 默认值
+**Priority**: Plugin config > Provider config > Default value
 
-插件会自动将请求转换为：`https://your-base-url/backend-api/codex/responses`
+The plugin automatically transforms requests to: `https://your-base-url/backend-api/codex/responses`
 
-### API 端点要求
+### API Endpoint Requirements
 
-您的第三方 Codex API 必须：
+Your third-party Codex API must:
 
-1. **端点路径**: `/backend-api/codex/responses`
-2. **认证方式**: Bearer Token (`Authorization: Bearer YOUR_API_KEY`)
-3. **请求格式**: Codex Backend API 格式
-4. **响应格式**: SSE (Server-Sent Events)
+1. **Endpoint Path**: `/backend-api/codex/responses`
+2. **Authentication**: Bearer Token (`Authorization: Bearer YOUR_API_KEY`)
+3. **Request Format**: Codex Backend API format
+4. **Response Format**: SSE (Server-Sent Events)
 
 ---
 
-## 🔧 使用方法
+## 🔧 Usage
 
 ```bash
-# 使用指定模型
+# Use specific model
 opencode run "your prompt" --model=openai/gpt-5.1-codex-high
 
-# 使用配置中的默认模型
+# Use default model from config
 opencode run "your prompt"
 
-# 启用调试日志
+# Enable debug logging
 ENABLE_PLUGIN_REQUEST_LOGGING=1 opencode run "your prompt"
 ```
 
-日志保存到：`~/.opencode/logs/codex-plugin/`
+Logs are saved to: `~/.opencode/logs/codex-plugin/`
 
 ---
 
-## 🛠️ 工作原理
+## 🛠️ How It Works
 
-这个插件：
+This plugin:
 
-1. **拦截** OpenAI SDK 从 OpenCode 发出的请求
-2. **重写** URL 到您的自定义 Codex API 端点
-3. **转换** 请求为 Codex Backend API 格式
-4. **注入** Codex 系统指令
-5. **添加** API Key 认证头
-6. **转换** SSE 响应回标准格式
-
----
-
-## 📚 文档
-
-- **详细设置指南**: `THIRD_PARTY_SETUP.md`
-- **配置说明**: `docs/configuration.md`
-- **故障排查**: `docs/troubleshooting.md`
-- **架构文档**: `docs/development/ARCHITECTURE.md`
+1. **Intercepts** requests from OpenCode's OpenAI SDK
+2. **Rewrites** URLs to your custom Codex API endpoint
+3. **Transforms** requests to Codex Backend API format
+4. **Injects** Codex system instructions
+5. **Adds** API Key authentication headers
+6. **Converts** SSE responses back to standard format
 
 ---
 
-## ❓ 常见问题
+## 📚 Documentation
 
-**Q: 遇到 401 Unauthorized 错误？**
-A: 检查您的 API key 是否正确。
+- **Detailed Setup Guide**: `THIRD_PARTY_SETUP.md`
+- **Configuration**: `docs/configuration.md`
+- **Troubleshooting**: `docs/troubleshooting.md`
+- **Architecture**: `docs/development/ARCHITECTURE.md`
 
-**Q: 遇到 Connection refused 错误？**
-A: 验证您的 baseURL 是否可访问。
+---
 
-**Q: 提示找不到模型？**
-A: 确保使用 `openai/` 前缀（例如：`--model=openai/gpt-5-codex`）
+## ❓ FAQ
 
-**Q: baseURL 配置保存在哪里？**
+**Q: Getting 401 Unauthorized error?**
+A: Check if your API key is correct.
+
+**Q: Getting Connection refused error?**
+A: Verify that your baseURL is accessible.
+
+**Q: Model not found error?**
+A: Make sure to use the `openai/` prefix (e.g., `--model=openai/gpt-5-codex`)
+
+**Q: Where is baseURL configuration saved?**
 A: `~/.opencode/openai-codex-auth-config.json`
 
 ---
 
-## ⚠️ 注意事项
+## ⚠️ Notice
 
-- 此功能用于连接到您自己的或授权的第三方 Codex API 端点
-- 请确保您有权访问目标 API 端点
-- 不同的 API 提供商可能有不同的使用限制和定价
+- This plugin is for connecting to your own or authorized third-party Codex API endpoints
+- Please ensure you have permission to access the target API endpoint
+- Different API providers may have different usage limits and pricing
 
 ---
 
-## 📄 许可证
+## 📄 License
 
 MIT License
 
-## 🔗 原始项目
+## 🔗 Original Project
 
 Modified from: [numman-ali/opencode-openai-codex-key](https://github.com/numman-ali/opencode-openai-codex-key)
 
 ---
 
-**纯 API Key 版本 - 无 OAuth 依赖**
+**Pure API Key Version - No OAuth Dependencies**
